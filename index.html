@@ -36,6 +36,30 @@
             margin-bottom: 15px;
         }
 
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pill {
+            padding: 10px 20px;
+            border: 1px solid #DFDFDF;
+            border-radius: 20px;
+            background-color: #E9ECEF;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .pill.selected {
+            background-color: #28A745;
+            color: #FFFFFF;
+        }
+
+        .pill:hover {
+            background-color: #D4EDDA;
+        }
+
         .dropdown {
             position: relative;
             display: inline-block;
@@ -188,9 +212,10 @@
     </div>
 
     <script>
+        const coreFeaturePills = document.querySelectorAll('.pill');
+        const selectedCoreFeaturesList = document.getElementById('selectedCoreFeatures');
         const dropdownButton = document.getElementById('dropdownButton');
         const dropdownContent = document.getElementById('dropdownContent');
-        const additionalFeatures = document.getElementById('additionalFeaturesDropdown');
         const selectedAdditionalFeaturesList = document.getElementById('selectedAdditionalFeatures');
         const totalCostElement = document.getElementById('totalCost');
         const progressBar = document.getElementById('progressBar');
@@ -198,19 +223,36 @@
         let totalCost = 0;
         const maxCost = 10000;
 
+        // Toggle core feature selection
+        coreFeaturePills.forEach((pill) => {
+            pill.addEventListener('click', () => {
+                pill.classList.toggle('selected');
+                updateSummary();
+            });
+        });
+
+        // Dropdown toggle
         dropdownButton.addEventListener('click', () => {
             dropdownContent.style.display =
                 dropdownContent.style.display === 'block' ? 'none' : 'block';
         });
 
-        additionalFeatures.addEventListener('change', updateSummary);
+        dropdownContent.addEventListener('change', updateSummary);
 
         function updateSummary() {
+            // Update core features summary
+            selectedCoreFeaturesList.innerHTML = '';
+            document.querySelectorAll('.pill.selected').forEach((pill) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = pill.textContent;
+                selectedCoreFeaturesList.appendChild(listItem);
+            });
+
+            // Update additional features summary
             const checkedBoxes = dropdownContent.querySelectorAll(
                 'input[type="checkbox"]:checked'
             );
             const selectedCount = checkedBoxes.length;
-
             dropdownButton.textContent =
                 selectedCount > 0
                     ? `${selectedCount} Features Selected`
@@ -227,6 +269,7 @@
                 totalCost += parseFloat(checkbox.dataset.price);
             });
 
+            // Update total cost and progress bar
             totalCostElement.textContent = totalCost.toFixed(2);
             const progressPercentage = Math.min((totalCost / maxCost) * 100, 100);
             progressBar.style.width = `${progressPercentage}%`;
