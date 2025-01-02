@@ -60,14 +60,24 @@
             background-color: #D4EDDA;
         }
 
-        select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
+        .multi-select {
+            display: flex;
+            flex-direction: column;
             border: 1px solid #DFDFDF;
+            border-radius: 5px;
             background-color: #FFFFFF;
-            margin-top: 10px;
-            font-size: 16px;
+            padding: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .multi-select label {
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .multi-select input[type="checkbox"] {
+            margin-right: 10px;
         }
 
         .summary {
@@ -117,25 +127,25 @@
             <!-- Additional Features Section -->
             <div class="section">
                 <h2>Select Additional Features</h2>
-                <select id="additionalFeatures" multiple>
-                    <option value="AI Estimates" data-price="1500">AI Estimates ($1,500)</option>
-                    <option value="Multiple Tax Rates" data-price="250">Estimating/Invoicing with Multiple Tax Rates ($250)</option>
-                    <option value="Foreman Timesheets" data-price="500">Foreman Only Timesheets ($500)</option>
-                    <option value="Gantt Charts" data-price="950">Scheduling Gantt Charts ($950)</option>
-                    <option value="Progress Draws" data-price="600">Invoice Progress Draws ($600)</option>
-                    <option value="Sales Lead Page" data-price="500">Sales Lead Status Page ($500)</option>
-                    <option value="Purchase Orders" data-price="600">Purchase Orders ($600)</option>
-                    <option value="Change Orders" data-price="600">Change Orders ($600)</option>
-                    <option value="RFIs" data-price="600">RFI's ($600)</option>
-                    <option value="Geolocation" data-price="75">Time Tracking Geolocation ($75)</option>
-                    <option value="Live Traffic" data-price="75">Time Tracking Distance to Job with Live Traffic ($75)</option>
-                    <option value="Daily Weather" data-price="50">Daily Weather ($50)</option>
-                    <option value="Site Reports" data-price="1200">Daily Site Reports ($1,200)</option>
-                    <option value="AI Scanner" data-price="1500">AI Receipt/Invoice Scanner ($1,500)</option>
-                    <option value="Material Inventory" data-price="500">Material Inventory ($500)</option>
-                    <option value="Equipment Inventory" data-price="500">Equipment Inventory ($500)</option>
-                    <option value="Client Portal" data-price="1200">Client Portal ($1,200)</option>
-                </select>
+                <div class="multi-select" id="additionalFeatures">
+                    <label><input type="checkbox" value="AI Estimates" data-price="1500"> AI Estimates ($1,500)</label>
+                    <label><input type="checkbox" value="Multiple Tax Rates" data-price="250"> Estimating/Invoicing with Multiple Tax Rates ($250)</label>
+                    <label><input type="checkbox" value="Foreman Timesheets" data-price="500"> Foreman Only Timesheets ($500)</label>
+                    <label><input type="checkbox" value="Gantt Charts" data-price="950"> Scheduling Gantt Charts ($950)</label>
+                    <label><input type="checkbox" value="Progress Draws" data-price="600"> Invoice Progress Draws ($600)</label>
+                    <label><input type="checkbox" value="Sales Lead Page" data-price="500"> Sales Lead Status Page ($500)</label>
+                    <label><input type="checkbox" value="Purchase Orders" data-price="600"> Purchase Orders ($600)</label>
+                    <label><input type="checkbox" value="Change Orders" data-price="600"> Change Orders ($600)</label>
+                    <label><input type="checkbox" value="RFIs" data-price="600"> RFI's ($600)</label>
+                    <label><input type="checkbox" value="Geolocation" data-price="75"> Time Tracking Geolocation ($75)</label>
+                    <label><input type="checkbox" value="Live Traffic" data-price="75"> Time Tracking Distance to Job with Live Traffic ($75)</label>
+                    <label><input type="checkbox" value="Daily Weather" data-price="50"> Daily Weather ($50)</label>
+                    <label><input type="checkbox" value="Site Reports" data-price="1200"> Daily Site Reports ($1,200)</label>
+                    <label><input type="checkbox" value="AI Scanner" data-price="1500"> AI Receipt/Invoice Scanner ($1,500)</label>
+                    <label><input type="checkbox" value="Material Inventory" data-price="500"> Material Inventory ($500)</label>
+                    <label><input type="checkbox" value="Equipment Inventory" data-price="500"> Equipment Inventory ($500)</label>
+                    <label><input type="checkbox" value="Client Portal" data-price="1200"> Client Portal ($1,200)</label>
+                </div>
             </div>
         </div>
 
@@ -159,7 +169,7 @@
     <script>
         const coreFeaturePills = document.querySelectorAll('.pill');
         const selectedCoreFeaturesList = document.getElementById('selectedCoreFeatures');
-        const additionalFeaturesSelect = document.getElementById('additionalFeatures');
+        const additionalFeatures = document.getElementById('additionalFeatures');
         const selectedAdditionalFeaturesList = document.getElementById('selectedAdditionalFeatures');
         const totalCostElement = document.getElementById('totalCost');
 
@@ -174,7 +184,7 @@
         });
 
         // Update summary and cost on additional feature selection
-        additionalFeaturesSelect.addEventListener('change', updateSummary);
+        additionalFeatures.addEventListener('change', updateSummary);
 
         function updateSummary() {
             // Update core features summary
@@ -188,12 +198,12 @@
             // Update additional features summary and calculate total cost
             selectedAdditionalFeaturesList.innerHTML = '';
             totalCost = 0;
-            Array.from(additionalFeaturesSelect.selectedOptions).forEach(option => {
+            Array.from(additionalFeatures.querySelectorAll('input[type="checkbox"]:checked')).forEach(checkbox => {
                 const listItem = document.createElement('li');
-                listItem.textContent = option.textContent;
+                listItem.textContent = checkbox.parentNode.textContent.trim();
                 selectedAdditionalFeaturesList.appendChild(listItem);
 
-                totalCost += parseFloat(option.dataset.price);
+                totalCost += parseFloat(checkbox.dataset.price);
             });
 
             // Update total cost
