@@ -89,6 +89,12 @@
         .summary ul li {
             margin-bottom: 10px;
         }
+
+        .total-cost {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -112,23 +118,23 @@
             <div class="section">
                 <h2>Select Additional Features</h2>
                 <select id="additionalFeatures" multiple>
-                    <option value="AI Estimates">AI Estimates</option>
-                    <option value="Multiple Tax Rates">Estimating/Invoicing with Multiple Tax Rates</option>
-                    <option value="Foreman Timesheets">Foreman Only Timesheets</option>
-                    <option value="Gantt Charts">Scheduling Gantt Charts</option>
-                    <option value="Progress Draws">Invoice Progress Draws</option>
-                    <option value="Sales Lead Page">Sales Lead Status Page</option>
-                    <option value="Purchase Orders">Purchase Orders</option>
-                    <option value="Change Orders">Change Orders</option>
-                    <option value="RFIs">RFI's</option>
-                    <option value="Geolocation">Time Tracking Geolocation</option>
-                    <option value="Live Traffic">Time Tracking Distance to Job with Live Traffic</option>
-                    <option value="Daily Weather">Daily Weather</option>
-                    <option value="Site Reports">Daily Site Reports</option>
-                    <option value="AI Scanner">AI Receipt/Invoice Scanner</option>
-                    <option value="Material Inventory">Material Inventory</option>
-                    <option value="Equipment Inventory">Equipment Inventory</option>
-                    <option value="Client Portal">Client Portal</option>
+                    <option value="AI Estimates" data-price="1500">AI Estimates ($1,500)</option>
+                    <option value="Multiple Tax Rates" data-price="250">Estimating/Invoicing with Multiple Tax Rates ($250)</option>
+                    <option value="Foreman Timesheets" data-price="500">Foreman Only Timesheets ($500)</option>
+                    <option value="Gantt Charts" data-price="950">Scheduling Gantt Charts ($950)</option>
+                    <option value="Progress Draws" data-price="600">Invoice Progress Draws ($600)</option>
+                    <option value="Sales Lead Page" data-price="500">Sales Lead Status Page ($500)</option>
+                    <option value="Purchase Orders" data-price="600">Purchase Orders ($600)</option>
+                    <option value="Change Orders" data-price="600">Change Orders ($600)</option>
+                    <option value="RFIs" data-price="600">RFI's ($600)</option>
+                    <option value="Geolocation" data-price="75">Time Tracking Geolocation ($75)</option>
+                    <option value="Live Traffic" data-price="75">Time Tracking Distance to Job with Live Traffic ($75)</option>
+                    <option value="Daily Weather" data-price="50">Daily Weather ($50)</option>
+                    <option value="Site Reports" data-price="1200">Daily Site Reports ($1,200)</option>
+                    <option value="AI Scanner" data-price="1500">AI Receipt/Invoice Scanner ($1,500)</option>
+                    <option value="Material Inventory" data-price="500">Material Inventory ($500)</option>
+                    <option value="Equipment Inventory" data-price="500">Equipment Inventory ($500)</option>
+                    <option value="Client Portal" data-price="1200">Client Portal ($1,200)</option>
                 </select>
             </div>
         </div>
@@ -142,6 +148,10 @@
 
                 <h3>Selected Additional Features:</h3>
                 <ul id="selectedAdditionalFeatures"></ul>
+
+                <div class="total-cost">
+                    Total Estimated Cost: $<span id="totalCost">0</span>
+                </div>
             </div>
         </div>
     </div>
@@ -151,6 +161,9 @@
         const selectedCoreFeaturesList = document.getElementById('selectedCoreFeatures');
         const additionalFeaturesSelect = document.getElementById('additionalFeatures');
         const selectedAdditionalFeaturesList = document.getElementById('selectedAdditionalFeatures');
+        const totalCostElement = document.getElementById('totalCost');
+
+        let totalCost = 0;
 
         // Toggle core feature selection
         coreFeaturePills.forEach(pill => {
@@ -160,7 +173,7 @@
             });
         });
 
-        // Update summary on additional feature selection
+        // Update summary and cost on additional feature selection
         additionalFeaturesSelect.addEventListener('change', updateSummary);
 
         function updateSummary() {
@@ -172,13 +185,19 @@
                 selectedCoreFeaturesList.appendChild(listItem);
             });
 
-            // Update additional features summary
+            // Update additional features summary and calculate total cost
             selectedAdditionalFeaturesList.innerHTML = '';
+            totalCost = 0;
             Array.from(additionalFeaturesSelect.selectedOptions).forEach(option => {
                 const listItem = document.createElement('li');
-                listItem.textContent = option.value;
+                listItem.textContent = option.textContent;
                 selectedAdditionalFeaturesList.appendChild(listItem);
+
+                totalCost += parseFloat(option.dataset.price);
             });
+
+            // Update total cost
+            totalCostElement.textContent = totalCost.toFixed(2);
         }
     </script>
 </body>
