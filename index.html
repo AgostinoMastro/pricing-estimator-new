@@ -102,7 +102,34 @@
 
         .total-cost {
             margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .progress-bar-container {
+            margin-top: 20px;
+            background-color: #FFFFFF;
+            border: 1px solid #DFDFDF;
+            border-radius: 10px;
+            height: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: #000000;
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .cost-text {
             font-size: 18px;
+            margin-top: 10px;
+            color: #000000;
+        }
+
+        .cost-text span {
             font-weight: bold;
         }
     </style>
@@ -162,6 +189,12 @@
                 <div class="total-cost">
                     Total Estimated Cost: $<span id="totalCost">0</span>
                 </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div class="cost-text">This is a price estimation. Your price may vary based on your use case.</div>
             </div>
         </div>
     </div>
@@ -172,8 +205,10 @@
         const additionalFeatures = document.getElementById('additionalFeatures');
         const selectedAdditionalFeaturesList = document.getElementById('selectedAdditionalFeatures');
         const totalCostElement = document.getElementById('totalCost');
+        const progressBar = document.getElementById('progressBar');
 
         let totalCost = 0;
+        const maxCost = 10000; // Set an arbitrary max value for the progress bar
 
         // Toggle core feature selection
         coreFeaturePills.forEach(pill => {
@@ -208,6 +243,10 @@
 
             // Update total cost
             totalCostElement.textContent = totalCost.toFixed(2);
+
+            // Update progress bar
+            const progressPercentage = Math.min((totalCost / maxCost) * 100, 100);
+            progressBar.style.width = `${progressPercentage}%`;
         }
     </script>
 </body>
