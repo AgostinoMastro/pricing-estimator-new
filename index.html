@@ -36,47 +36,44 @@
             margin-bottom: 15px;
         }
 
-        .pills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
         }
 
-        .pill {
-            padding: 10px 20px;
+        .dropdown-button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
             border: 1px solid #DFDFDF;
-            border-radius: 20px;
-            background-color: #E9ECEF;
+            background-color: #FFFFFF;
             cursor: pointer;
-            transition: 0.2s ease;
+            text-align: left;
+            font-size: 16px;
         }
 
-        .pill.selected {
-            background-color: #28A745;
-            color: #FFFFFF;
-        }
-
-        .pill:hover {
-            background-color: #D4EDDA;
-        }
-
-        .multi-select {
-            display: flex;
-            flex-direction: column;
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #FFFFFF;
             border: 1px solid #DFDFDF;
             border-radius: 5px;
-            background-color: #FFFFFF;
-            padding: 10px;
+            width: 100%;
             max-height: 150px;
             overflow-y: auto;
+            z-index: 1;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .multi-select label {
-            cursor: pointer;
+        .dropdown-content label {
+            display: block;
             margin-bottom: 5px;
+            cursor: pointer;
         }
 
-        .multi-select input[type="checkbox"] {
+        .dropdown-content input[type="checkbox"] {
             margin-right: 10px;
         }
 
@@ -122,16 +119,6 @@
             width: 0;
             transition: width 0.3s ease;
         }
-
-        .cost-text {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #000000;
-        }
-
-        .cost-text span {
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -154,24 +141,27 @@
             <!-- Additional Features Section -->
             <div class="section">
                 <h2>Select Additional Features</h2>
-                <div class="multi-select" id="additionalFeatures">
-                    <label><input type="checkbox" value="AI Estimates" data-price="1500"> AI Estimates ($1,500)</label>
-                    <label><input type="checkbox" value="Multiple Tax Rates" data-price="250"> Estimating/Invoicing with Multiple Tax Rates ($250)</label>
-                    <label><input type="checkbox" value="Foreman Timesheets" data-price="500"> Foreman Only Timesheets ($500)</label>
-                    <label><input type="checkbox" value="Gantt Charts" data-price="950"> Scheduling Gantt Charts ($950)</label>
-                    <label><input type="checkbox" value="Progress Draws" data-price="600"> Invoice Progress Draws ($600)</label>
-                    <label><input type="checkbox" value="Sales Lead Page" data-price="500"> Sales Lead Status Page ($500)</label>
-                    <label><input type="checkbox" value="Purchase Orders" data-price="600"> Purchase Orders ($600)</label>
-                    <label><input type="checkbox" value="Change Orders" data-price="600"> Change Orders ($600)</label>
-                    <label><input type="checkbox" value="RFIs" data-price="600"> RFI's ($600)</label>
-                    <label><input type="checkbox" value="Geolocation" data-price="75"> Time Tracking Geolocation ($75)</label>
-                    <label><input type="checkbox" value="Live Traffic" data-price="75"> Time Tracking Distance to Job with Live Traffic ($75)</label>
-                    <label><input type="checkbox" value="Daily Weather" data-price="50"> Daily Weather ($50)</label>
-                    <label><input type="checkbox" value="Site Reports" data-price="1200"> Daily Site Reports ($1,200)</label>
-                    <label><input type="checkbox" value="AI Scanner" data-price="1500"> AI Receipt/Invoice Scanner ($1,500)</label>
-                    <label><input type="checkbox" value="Material Inventory" data-price="500"> Material Inventory ($500)</label>
-                    <label><input type="checkbox" value="Equipment Inventory" data-price="500"> Equipment Inventory ($500)</label>
-                    <label><input type="checkbox" value="Client Portal" data-price="1200"> Client Portal ($1,200)</label>
+                <div class="dropdown" id="additionalFeaturesDropdown">
+                    <div class="dropdown-button" id="dropdownButton">Select Additional Features</div>
+                    <div class="dropdown-content" id="dropdownContent">
+                        <label><input type="checkbox" value="AI Estimates" data-price="1500"> AI Estimates ($1,500)</label>
+                        <label><input type="checkbox" value="Multiple Tax Rates" data-price="250"> Estimating/Invoicing with Multiple Tax Rates ($250)</label>
+                        <label><input type="checkbox" value="Foreman Timesheets" data-price="500"> Foreman Only Timesheets ($500)</label>
+                        <label><input type="checkbox" value="Gantt Charts" data-price="950"> Scheduling Gantt Charts ($950)</label>
+                        <label><input type="checkbox" value="Progress Draws" data-price="600"> Invoice Progress Draws ($600)</label>
+                        <label><input type="checkbox" value="Sales Lead Page" data-price="500"> Sales Lead Status Page ($500)</label>
+                        <label><input type="checkbox" value="Purchase Orders" data-price="600"> Purchase Orders ($600)</label>
+                        <label><input type="checkbox" value="Change Orders" data-price="600"> Change Orders ($600)</label>
+                        <label><input type="checkbox" value="RFIs" data-price="600"> RFI's ($600)</label>
+                        <label><input type="checkbox" value="Geolocation" data-price="75"> Time Tracking Geolocation ($75)</label>
+                        <label><input type="checkbox" value="Live Traffic" data-price="75"> Time Tracking Distance to Job with Live Traffic ($75)</label>
+                        <label><input type="checkbox" value="Daily Weather" data-price="50"> Daily Weather ($50)</label>
+                        <label><input type="checkbox" value="Site Reports" data-price="1200"> Daily Site Reports ($1,200)</label>
+                        <label><input type="checkbox" value="AI Scanner" data-price="1500"> AI Receipt/Invoice Scanner ($1,500)</label>
+                        <label><input type="checkbox" value="Material Inventory" data-price="500"> Material Inventory ($500)</label>
+                        <label><input type="checkbox" value="Equipment Inventory" data-price="500"> Equipment Inventory ($500)</label>
+                        <label><input type="checkbox" value="Client Portal" data-price="1200"> Client Portal ($1,200)</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,47 +183,43 @@
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
-
-                <div class="cost-text">This is a price estimation. Your price may vary based on your use case.</div>
             </div>
         </div>
     </div>
 
     <script>
-        const coreFeaturePills = document.querySelectorAll('.pill');
-        const selectedCoreFeaturesList = document.getElementById('selectedCoreFeatures');
-        const additionalFeatures = document.getElementById('additionalFeatures');
+        const dropdownButton = document.getElementById('dropdownButton');
+        const dropdownContent = document.getElementById('dropdownContent');
+        const additionalFeatures = document.getElementById('additionalFeaturesDropdown');
         const selectedAdditionalFeaturesList = document.getElementById('selectedAdditionalFeatures');
         const totalCostElement = document.getElementById('totalCost');
         const progressBar = document.getElementById('progressBar');
 
         let totalCost = 0;
-        const maxCost = 10000; // Set an arbitrary max value for the progress bar
+        const maxCost = 10000;
 
-        // Toggle core feature selection
-        coreFeaturePills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                pill.classList.toggle('selected');
-                updateSummary();
-            });
+        dropdownButton.addEventListener('click', () => {
+            dropdownContent.style.display =
+                dropdownContent.style.display === 'block' ? 'none' : 'block';
         });
 
-        // Update summary and cost on additional feature selection
         additionalFeatures.addEventListener('change', updateSummary);
 
         function updateSummary() {
-            // Update core features summary
-            selectedCoreFeaturesList.innerHTML = '';
-            document.querySelectorAll('.pill.selected').forEach(pill => {
-                const listItem = document.createElement('li');
-                listItem.textContent = pill.textContent;
-                selectedCoreFeaturesList.appendChild(listItem);
-            });
+            const checkedBoxes = dropdownContent.querySelectorAll(
+                'input[type="checkbox"]:checked'
+            );
+            const selectedCount = checkedBoxes.length;
 
-            // Update additional features summary and calculate total cost
+            dropdownButton.textContent =
+                selectedCount > 0
+                    ? `${selectedCount} Features Selected`
+                    : 'Select Additional Features';
+
             selectedAdditionalFeaturesList.innerHTML = '';
             totalCost = 0;
-            Array.from(additionalFeatures.querySelectorAll('input[type="checkbox"]:checked')).forEach(checkbox => {
+
+            checkedBoxes.forEach((checkbox) => {
                 const listItem = document.createElement('li');
                 listItem.textContent = checkbox.parentNode.textContent.trim();
                 selectedAdditionalFeaturesList.appendChild(listItem);
@@ -241,10 +227,7 @@
                 totalCost += parseFloat(checkbox.dataset.price);
             });
 
-            // Update total cost
             totalCostElement.textContent = totalCost.toFixed(2);
-
-            // Update progress bar
             const progressPercentage = Math.min((totalCost / maxCost) * 100, 100);
             progressBar.style.width = `${progressPercentage}%`;
         }
